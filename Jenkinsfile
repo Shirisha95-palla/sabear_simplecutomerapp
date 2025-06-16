@@ -9,11 +9,11 @@ pipeline { // Opening pipeline
         // This can be http or https
         NEXUS_PROTOCOL = "http"
         // Where your Nexus is running
-        NEXUS_URL = "34.201.219.251:8082/" // Double check the double slash at the end, usually it's just one: "3.88.54.126:8082/"
+        NEXUS_URL = "http://3.84.24.116:8081/" // Double check the double slash at the end, usually it's just one: "3.88.54.126:8082/"
         // Repository where we will upload the artifact
-        NEXUS_REPOSITORY = "maven-snapshot05/" // Is this the correct Nexus repository name? Sonarqube is usually a tool, not a Nexus repo. Common ones are 'maven-releases', 'maven-snapshots'.
+        NEXUS_REPOSITORY = "hiring/" // Is this the correct Nexus repository name? Sonarqube is usually a tool, not a Nexus repo. Common ones are 'maven-releases', 'maven-snapshots'.
         // Jenkins credential id to authenticate to Nexus OSS
-        NEXUS_CREDENTIAL_ID = "Nexus_server" // Make sure this is the exact ID configured in Jenkins Credentials.
+        NEXUS_CREDENTIAL_ID = "nexus" // Make sure this is the exact ID configured in Jenkins Credentials.
         SCANNER_HOME = tool 'sonar_scanner' // This should be the tool name configured in Jenkins for SonarQube Scanner.
     } // Closing environment
     stages { // Opening stages
@@ -21,7 +21,7 @@ pipeline { // Opening pipeline
             steps { // Opening steps
                 script { // Opening script
                     // Let's clone the source
-                    git 'https://github.com/sripriya7-ande/sabear_simplecutomerapp.git';
+                    git 'https://github.com/Shirisha95-palla/sabear_simplecutomerapp.git';
                 } // Closing script
             } // Closing steps
         } // Closing clone code stage
