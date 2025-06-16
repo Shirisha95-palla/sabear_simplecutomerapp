@@ -1,15 +1,15 @@
 node {
     def NEXUS_VERSION = "nexus3"
     def NEXUS_PROTOCOL = "http"
-    def NEXUS_URL = "34.201.219.251:8082"
-    def NEXUS_REPOSITORY = "maven-snapshot05"
-    def NEXUS_CREDENTIAL_ID = "Nexus_server"
+    def NEXUS_URL = "http://3.84.24.116:8081"
+    def NEXUS_REPOSITORY = "Maven-snapshot25"
+    def NEXUS_CREDENTIAL_ID = "nexus"
     def SCANNER_HOME = tool name: 'sonar_scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-    def mvnHome = tool name: 'Maven_3.9.4', type: 'hudson.tasks.Maven$MavenInstallation'
+    def mvnHome = tool name: 'maven3', type: 'hudson.tasks.Maven$MavenInstallation'
 
     try {
         stage('Clone Code') {
-            git 'https://github.com/sripriya7-ande/sabear_simplecutomerapp.git'
+            git 'https://github.com/Shirisha95-palla/sabear_simplecutomerapp.git'
         }
 
         stage('Maven Build') {
@@ -23,7 +23,7 @@ node {
                     -Dsonar.projectKey=Ncodeit \
                     -Dsonar.projectName=Ncodeit \
                     -Dsonar.projectVersion=2.0 \
-                    -Dsonar.sources=/var/lib/jenkins/workspace/$JOB_NAME/src/ \
+                    -Dsonar.sources="${env.WORKSPACE}/src"
                     -Dsonar.binaries=target/classes/com/visualpathit/account/controller/ \
                     -Dsonar.junit.reportsPath=target/surefire-reports \
                     -Dsonar.jacoco.reportPath=target/jacoco.exec \
@@ -62,9 +62,10 @@ node {
         stage('Deploy to Tomcat') {
             def pom = readMavenPom file: 'pom.xml'
             def artifactPath = "target/*.${pom.packaging}"
-            def tomcatUrl = 'https://34.201.219.251:8443'
+            def tomcatUrl = 'def tomcatUrl = 'http://3.86.181.54:8080'
+/'
             def contextPath = "/${pom.artifactId}"
-            deploy adapters: [tomcat9(credentialsId: 'tomcat-token', url: tomcatUrl)], 
+            deploy adapters: [tomcat9(credentialsId: 'apche', url: tomcatUrl)], 
                    contextPath: contextPath, 
                    war: artifactPath
         }
@@ -72,12 +73,12 @@ node {
         slackSend(channel: '#jenkins-integration', 
                   color: 'good', 
                   message: "Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} succeeded! Deployed to Tomcat at ${env.BUILD_URL}", 
-                  tokenCredentialId: 'slack_token')
+                  tokenCredentialId: 'slack')
     } catch (Exception e) {
         slackSend(channel: '#jenkins-integration', 
                   color: 'danger', 
                   message: "Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed: ${e.getMessage()} at ${env.BUILD_URL}", 
-                  tokenCredentialId: 'slack_token')
+                  tokenCredentialId: 'slack')
         throw e
     }
 }
