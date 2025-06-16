@@ -1,7 +1,7 @@
 pipeline { // Opening pipeline
     agent any
     tools { // Opening tools
-        maven "Maven_3.9.4"
+        maven "maven3"
     } // Closing tools
     environment { // Opening environment
         // This can be nexus3 or nexus2
