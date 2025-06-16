@@ -9,7 +9,7 @@ pipeline { // Opening pipeline
         // This can be http or https
         NEXUS_PROTOCOL = "http"
         // Where your Nexus is running
-        NEXUS_URL = "http://3.84.24.116:8081/" // Double check the double slash at the end, usually it's just one: "3.88.54.126:8082/"
+        NEXUS_URL = "3.84.24.116:8081/" // Double check the double slash at the end, usually it's just one: "3.88.54.126:8082/"
         // Repository where we will upload the artifact
         NEXUS_REPOSITORY = "hiring/" // Is this the correct Nexus repository name? Sonarqube is usually a tool, not a Nexus repo. Common ones are 'maven-releases', 'maven-snapshots'.
         // Jenkins credential id to authenticate to Nexus OSS
@@ -36,8 +36,8 @@ pipeline { // Opening pipeline
         } // Closing mvn build stage
         stage('SonarCloud') {
         steps {
-            withSonarQubeEnv('sonar') {
-                sh '''${SCANNER_HOME}/bin/sonar-scanner \
+            withSonarQubeEnv('sonarqube') {
+                sh '''${SCANNER_HOME}/bin/sonar_scanner \
                     -Dsonar.projectKey=Ncodeit \
                     -Dsonar.projectName=Ncodeit \
                     -Dsonar.projectVersion=2.0 \
